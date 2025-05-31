@@ -355,21 +355,16 @@ async function checkGuildsForExisting() {
 
 // Helper function to efficiently check URL patterns
 function isFilteredUrl(content) {
-	// Check for common media/gif URLs to ignore
-	if (content.startsWith(URL_PATTERNS.TENOR) || 
-		content.startsWith(URL_PATTERNS.DISCORD_MEDIA)) {
-		return true;
-	}
-	
-	// Check for GIF extensions
-	for (const pattern of URL_PATTERNS.GIF_EXTENSIONS) {
-		if (content.includes(pattern)) {
-			return true;
-		}
-	}
-	
-	// Check if it's any URL
-	return content.includes('http') || isURL(content);
+    // Check for GIF patterns: if found, allow the message (return false)
+    if (content.includes('.gif') || 
+        content.includes('-gif') || 
+        content.startsWith('https://tenor.com/view') || 
+        content.startsWith('https://media.discordapp.net/')) {
+        return false;
+    }
+
+    // Otherwise, check for any URL and filter if found
+    return content.includes('http') || isURL(content);
 }
 
 // Handle message processing separately for better organization

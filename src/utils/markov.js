@@ -12,7 +12,7 @@ class Markov {
 
 	add(input) {
 		if (typeof input === 'string') {
-			const tokens = input.split(/[\s]/);
+			const tokens = input.match(/(https?:\/\/\S+)|[^\s]+/g) || [];
 			if (tokens.length == 1) {
 				for (let i = 0; i < tokens.length; i++) {
 					this.buildChain(tokens[i].toLowerCase(), tokens[i].toLowerCase());
